@@ -1,0 +1,15 @@
+- name: File
+  comment: 文件
+  disable_pagination: true
+  fill_gorm_commit: true
+  fill_router_prefix: true
+  fields:
+    - name: OrignName
+      type: string
+      comment: 原始名字
+      gorm_tag: "size:512;"
+      query: {}
+    - name: Path
+      comment: 路径
+      type: string
+      query: {}

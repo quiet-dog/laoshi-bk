@@ -1,0 +1,19 @@
+- name: TaoLun
+  comment: 讨论
+  disable_pagination: true
+  fill_gorm_commit: true
+  fill_router_prefix: true
+  fields:
+    - name: Title
+      type: string
+      comment: 签到标题
+      gorm_tag: "size:512;"
+    - name: Comment
+      type: string
+      comment: 讨论内容
+    - name: Time
+      type: string
+      comment: 讨论时长
+    - name: Path
+      type: string
+      comment: 文件地址

@@ -1,0 +1,31 @@
+- name: Employ
+  comment: 用户
+  disable_pagination: true
+  fill_gorm_commit: true
+  fill_router_prefix: true
+  fields:
+    - name: Name
+      type: string
+      comment: 姓名
+      gorm_tag: "size:512;"
+      query: {}
+    - name: Username
+      comment: 用户名
+      type: string
+      query: {}
+    - name: Password
+      comment: 密码
+      type: string
+      query: {}
+    - name: IsTeacher
+      comment: 是否是老师
+      type: bool
+      query: {}
+    - name: IsCommittee
+      comment: 是否是委员
+      type: bool
+      query: {}
+    - name: Committee
+      comment: 组号
+      type: int
+      query: {}

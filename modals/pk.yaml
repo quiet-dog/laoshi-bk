@@ -1,0 +1,14 @@
+- name: Pk
+  comment: 小组pk
+  disable_pagination: true
+  fill_gorm_commit: true
+  fill_router_prefix: true
+  fields:
+    - name: Title
+      type: string
+      comment: pk标题
+      gorm_tag: "size:512;"
+    - name: Count
+      type: int
+      comment: 小组数量
+      gorm_tag: ""
