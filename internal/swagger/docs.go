@@ -337,6 +337,263 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/class/comments": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "CommentAPI"
+                ],
+                "summary": "Query comment list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.ResponseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/schema.Comment"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "CommentAPI"
+                ],
+                "summary": "Create comment record",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.CommentForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.ResponseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/schema.Comment"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/class/comments/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "CommentAPI"
+                ],
+                "summary": "Get comment record by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.ResponseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/schema.Comment"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "CommentAPI"
+                ],
+                "summary": "Update comment record by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.CommentForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "CommentAPI"
+                ],
+                "summary": "Delete comment record by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/class/employs": {
             "get": {
                 "security": [
@@ -851,6 +1108,263 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/class/pk-logs": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "PkLogAPI"
+                ],
+                "summary": "Query pk log list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.ResponseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/schema.PkLog"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "PkLogAPI"
+                ],
+                "summary": "Create pk log record",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.PkLogForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.ResponseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/schema.PkLog"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/class/pk-logs/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "PkLogAPI"
+                ],
+                "summary": "Get pk log record by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.ResponseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/schema.PkLog"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "PkLogAPI"
+                ],
+                "summary": "Update pk log record by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.PkLogForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "PkLogAPI"
+                ],
+                "summary": "Delete pk log record by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/class/pks": {
             "get": {
                 "security": [
@@ -1077,6 +1591,263 @@ const docTemplate = `{
                     "PkAPI"
                 ],
                 "summary": "Delete pk record by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/class/sign-logs": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "SignLogAPI"
+                ],
+                "summary": "Query sign log list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.ResponseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/schema.SignLog"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "SignLogAPI"
+                ],
+                "summary": "Create sign log record",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.SignLogForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.ResponseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/schema.SignLog"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/class/sign-logs/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "SignLogAPI"
+                ],
+                "summary": "Get sign log record by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.ResponseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/schema.SignLog"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "SignLogAPI"
+                ],
+                "summary": "Update sign log record by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.SignLogForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "SignLogAPI"
+                ],
+                "summary": "Delete sign log record by ID",
                 "parameters": [
                     {
                         "type": "string",
@@ -3240,6 +4011,12 @@ const docTemplate = `{
         "schema.Active": {
             "type": "object",
             "properties": {
+                "can_yu": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Employ"
+                    }
+                },
                 "created_at": {
                     "description": "Create time",
                     "type": "string"
@@ -3322,6 +4099,52 @@ const docTemplate = `{
             "properties": {
                 "captcha_id": {
                     "description": "Captcha ID",
+                    "type": "string"
+                }
+            }
+        },
+        "schema.Comment": {
+            "type": "object",
+            "properties": {
+                "active_id": {
+                    "description": "签到ID",
+                    "type": "string"
+                },
+                "comment": {
+                    "description": "是否开始",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "Create time",
+                    "type": "string"
+                },
+                "employ_id": {
+                    "description": "是否结束",
+                    "type": "string"
+                },
+                "employ_model": {
+                    "$ref": "#/definitions/schema.Employ"
+                },
+                "id": {
+                    "description": "Unique ID",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "Update time",
+                    "type": "string"
+                }
+            }
+        },
+        "schema.CommentForm": {
+            "type": "object",
+            "properties": {
+                "active_id": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "employ_id": {
                     "type": "string"
                 }
             }
@@ -3436,7 +4259,17 @@ const docTemplate = `{
             }
         },
         "schema.FileForm": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "orign_name": {
+                    "description": "原始名字",
+                    "type": "string"
+                },
+                "path": {
+                    "description": "路径",
+                    "type": "string"
+                }
+            }
         },
         "schema.Logger": {
             "type": "object",
@@ -3731,6 +4564,42 @@ const docTemplate = `{
                 }
             }
         },
+        "schema.PkLog": {
+            "type": "object",
+            "properties": {
+                "active_id": {
+                    "description": "签到标题",
+                    "type": "string"
+                },
+                "comment": {
+                    "description": "自动结束",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "Create time",
+                    "type": "string"
+                },
+                "employ_id": {
+                    "description": "自动结束",
+                    "type": "string"
+                },
+                "group_id": {
+                    "description": "自动结束",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "Unique ID",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "Update time",
+                    "type": "string"
+                }
+            }
+        },
+        "schema.PkLogForm": {
+            "type": "object"
+        },
         "schema.Role": {
             "type": "object",
             "properties": {
@@ -3858,6 +4727,18 @@ const docTemplate = `{
                     "description": "自动结束",
                     "type": "boolean"
                 },
+                "not_employ": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Employ"
+                    }
+                },
+                "sign_logs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.SignLog"
+                    }
+                },
                 "title": {
                     "description": "签到标题",
                     "type": "string"
@@ -3894,12 +4775,62 @@ const docTemplate = `{
                 }
             }
         },
+        "schema.SignLog": {
+            "type": "object",
+            "properties": {
+                "active_id": {
+                    "description": "签到标题",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "Create time",
+                    "type": "string"
+                },
+                "employ_id": {
+                    "description": "自动结束",
+                    "type": "string"
+                },
+                "employ_model": {
+                    "description": "自动结束",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/schema.Employ"
+                        }
+                    ]
+                },
+                "id": {
+                    "description": "Unique ID",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "Update time",
+                    "type": "string"
+                }
+            }
+        },
+        "schema.SignLogForm": {
+            "type": "object",
+            "properties": {
+                "active_id": {
+                    "type": "string"
+                },
+                "employ_id": {
+                    "type": "string"
+                }
+            }
+        },
         "schema.TaoLun": {
             "type": "object",
             "properties": {
                 "comment": {
                     "description": "讨论内容",
                     "type": "string"
+                },
+                "comment_model": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Comment"
+                    }
                 },
                 "created_at": {
                     "description": "Create time",
@@ -3924,6 +4855,13 @@ const docTemplate = `{
                 "updated_at": {
                     "description": "Update time",
                     "type": "string"
+                },
+                "upload_file": {
+                    "description": "文件",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.File"
+                    }
                 }
             }
         },

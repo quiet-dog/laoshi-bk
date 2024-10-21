@@ -2,7 +2,6 @@ package biz
 
 import (
 	"context"
-	"encoding/json"
 	"time"
 
 	"github.com/xxx/testapp/internal/mods/class/dal"
@@ -30,24 +29,31 @@ func (a *Active) Query(ctx context.Context, params schema.ActiveQueryParam) (*sc
 		},
 	})
 
-	for _, v := range result.Data {
-		if v.SignId != "" {
-			dal.GetSignDB(ctx, a.ActiveDAL.DB).Where("id = ?", v.SignId).First(&v.SignModel)
-		}
-		if v.PkId != "" {
-			dal.GetPkDB(ctx, a.ActiveDAL.DB).Where("id = ?", v.PkId).First(&v.PkModel)
-		}
-		if v.TaoLunId != "" {
-			dal.GetTaoLunDB(ctx, a.ActiveDAL.DB).Where("id = ?", v.TaoLunId).First(&v.TaoLunModel)
-			if v.TaoLunModel != nil && v.TaoLunModel.Path != "" {
-				var paths []string
-				json.Unmarshal([]byte(v.TaoLunModel.Path), &paths)
-				if len(paths) > 0 {
-					dal.GetTaoLunDB(ctx, a.ActiveDAL.DB).Where("id in (?)", paths).Find(&v.TaoLunModel.UploadFile)
-				}
-			}
-		}
-	}
+	// for _, v := range result.Data {
+	// 	if v.SignId != "" {
+	// 		dal.GetSignDB(ctx, a.ActiveDAL.DB).Where("id = ?", v.SignId).First(&v.SignModel)
+	// 		if v.SignModel != nil {
+	// 			dal.GetEmployDB(ctx, a.ActiveDAL.DB).Where("id in (?)", dal.GetSignLogDB(ctx, a.ActiveDAL.DB).Where("active_id = ?", v.ID).Select("employ_id")).Find(&v.SignModel.Employs)
+	// 		}
+	// 	}
+	// 	if v.PkId != "" {
+	// 		dal.GetPkDB(ctx, a.ActiveDAL.DB).Where("id = ?", v.PkId).First(&v.PkModel)
+	// 	}
+	// 	if v.TaoLunId != "" {
+	// 		dal.GetTaoLunDB(ctx, a.ActiveDAL.DB).Where("id = ?", v.TaoLunId).First(&v.TaoLunModel)
+	// 		if v.TaoLunModel != nil {
+	// 			dal.GetCommentDB(ctx, a.ActiveDAL.DB).Where("active_id = ?", v.ID).Find(&v.TaoLunModel.CommentModal)
+	// 		}
+
+	// 		if v.TaoLunModel != nil && v.TaoLunModel.Path != "" {
+	// 			var paths []string
+	// 			json.Unmarshal([]byte(v.TaoLunModel.Path), &paths)
+	// 			if len(paths) > 0 {
+	// 				dal.GetTaoLunDB(ctx, a.ActiveDAL.DB).Where("id in (?)", paths).Find(&v.TaoLunModel.UploadFile)
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	if err != nil {
 		return nil, err
@@ -63,6 +69,30 @@ func (a *Active) Get(ctx context.Context, id string) (*schema.Active, error) {
 	} else if active == nil {
 		return nil, errors.NotFound("", "Active not found")
 	}
+
+	// if active.SignId != "" {
+	// 	dal.GetSignDB(ctx, a.ActiveDAL.DB).Where("id = ?", active.SignId).First(&active.SignModel)
+	// 	if active.SignModel != nil {
+	// 		dal.GetEmployDB(ctx, a.ActiveDAL.DB).Where("id in (?)", dal.GetSignLogDB(ctx, a.ActiveDAL.DB).Where("active_id = ?", active.ID).Select("employ_id")).Find(&active.SignModel.Employs)
+	// 	}
+	// }
+	// if active.PkId != "" {
+	// 	dal.GetPkDB(ctx, a.ActiveDAL.DB).Where("id = ?", active.PkId).First(&active.PkModel)
+	// }
+	// if active.TaoLunId != "" {
+	// 	dal.GetTaoLunDB(ctx, a.ActiveDAL.DB).Where("id = ?", active.TaoLunId).First(&active.TaoLunModel)
+	// 	if active.TaoLunModel != nil {
+	// 		dal.GetCommentDB(ctx, a.ActiveDAL.DB).Where("active_id = ?", active.ID).Find(&active.TaoLunModel.CommentModal)
+	// 	}
+
+	// 	if active.TaoLunModel != nil && active.TaoLunModel.Path != "" {
+	// 		var paths []string
+	// 		json.Unmarshal([]byte(active.TaoLunModel.Path), &paths)
+	// 		if len(paths) > 0 {
+	// 			dal.GetTaoLunDB(ctx, a.ActiveDAL.DB).Where("id in (?)", paths).Find(&active.TaoLunModel.UploadFile)
+	// 		}
+	// 	}
+	// }
 	return active, nil
 }
 

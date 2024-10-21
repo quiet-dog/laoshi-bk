@@ -23,12 +23,12 @@ type Employ struct {
 type EmployQueryParam struct {
 	util.PaginationParam
 
-	Name        string `form:"-"` // 姓名
-	Username    string `form:"-"` // 用户名
-	Password    string `form:"-"` // 密码
-	IsTeacher   bool   `form:"-"` // 是否是老师
-	IsCommittee bool   `form:"-"` // 是否是委员
-	Committee   int    `form:"-"` // 组号
+	Name        string `form:"name"`      // 姓名
+	Username    string `form:"username"`  // 用户名
+	Password    string `form:"password"`  // 密码
+	IsTeacher   bool   `form:"-"`         // 是否是老师
+	IsCommittee bool   `form:"-"`         // 是否是委员
+	Committee   int    `form:"committee"` // 组号
 }
 
 // Defining the query options for the `Employ` struct.

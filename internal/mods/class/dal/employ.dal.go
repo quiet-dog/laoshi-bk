@@ -27,15 +27,20 @@ func (a *Employ) Query(ctx context.Context, params schema.EmployQueryParam, opts
 	}
 
 	db := GetEmployDB(ctx, a.DB)
-	// if v := params.Name; len(v) > 0 {
-	// 	db = db.Where("name = ?", v)
-	// }
-	// if v := params.Username; len(v) > 0 {
-	// 	db = db.Where("username = ?", v)
-	// }
-	// if v := params.Password; len(v) > 0 {
-	// 	db = db.Where("password = ?", v)
-	// }
+	if v := params.Name; len(v) > 0 {
+		db = db.Where("name = ?", v)
+	}
+	if v := params.Username; len(v) > 0 {
+		db = db.Where("username = ?", v)
+	}
+	if v := params.Password; len(v) > 0 {
+		db = db.Where("password = ?", v)
+	}
+
+	if v := params.Committee; v > 0 {
+		db = db.Where("committee = ?", v)
+	}
+
 	// if v := params.IsTeacher; v != nil {
 	// 	db = db.Where("is_teacher = ?", v)
 	// }

@@ -27,4 +27,13 @@ var Set = wire.NewSet(
 	wire.Struct(new(dal.File), "*"),
 	wire.Struct(new(biz.File), "*"),
 	wire.Struct(new(api.File), "*"),
+	wire.Struct(new(dal.SignLog), "*"),
+	wire.Struct(new(biz.SignLog), "*"),
+	wire.Struct(new(api.SignLog), "*"),
+	wire.Struct(new(dal.Comment), "*"),
+	wire.Struct(new(biz.Comment), "*"),
+	wire.Struct(new(api.Comment), "*"),
+	wire.Struct(new(dal.PkLog), "*"),
+	wire.Struct(new(biz.PkLog), "*"),
+	wire.Struct(new(api.PkLog), "*"),
 )

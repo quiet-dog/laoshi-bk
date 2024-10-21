@@ -12,17 +12,20 @@ import (
 )
 
 type Class struct {
-	DB        *gorm.DB
-	SignAPI   *api.Sign
-	ActiveAPI *api.Active
-	PkAPI     *api.Pk
-	EmployAPI *api.Employ
-	TaoLunAPI *api.TaoLun
-	FileAPI   *api.File
+	DB         *gorm.DB
+	SignAPI    *api.Sign
+	ActiveAPI  *api.Active
+	PkAPI      *api.Pk
+	EmployAPI  *api.Employ
+	TaoLunAPI  *api.TaoLun
+	FileAPI    *api.File
+	SignLogAPI *api.SignLog
+	CommentAPI *api.Comment
+	PkLogAPI   *api.PkLog
 }
 
 func (a *Class) AutoMigrate(ctx context.Context) error {
-	return a.DB.AutoMigrate(new(schema.Sign), new(schema.Active), new(schema.Pk), new(schema.Employ), new(schema.TaoLun), new(schema.File))
+	return a.DB.AutoMigrate(new(schema.Sign), new(schema.Active), new(schema.Pk), new(schema.Employ), new(schema.TaoLun), new(schema.File), new(schema.SignLog), new(schema.Comment), new(schema.PkLog))
 }
 
 func (a *Class) Init(ctx context.Context) error {
@@ -83,6 +86,30 @@ func (a *Class) RegisterV1Routers(ctx context.Context, v1 *gin.RouterGroup) erro
 		file.POST("", a.FileAPI.Create)
 		file.PUT(":id", a.FileAPI.Update)
 		file.DELETE(":id", a.FileAPI.Delete)
+	}
+	signLog := v1.Group("sign-logs")
+	{
+		signLog.GET("", a.SignLogAPI.Query)
+		signLog.GET(":id", a.SignLogAPI.Get)
+		signLog.POST("", a.SignLogAPI.Create)
+		signLog.PUT(":id", a.SignLogAPI.Update)
+		signLog.DELETE(":id", a.SignLogAPI.Delete)
+	}
+	comment := v1.Group("comments")
+	{
+		comment.GET("", a.CommentAPI.Query)
+		comment.GET(":id", a.CommentAPI.Get)
+		comment.POST("", a.CommentAPI.Create)
+		comment.PUT(":id", a.CommentAPI.Update)
+		comment.DELETE(":id", a.CommentAPI.Delete)
+	}
+	pkLog := v1.Group("pk-logs")
+	{
+		pkLog.GET("", a.PkLogAPI.Query)
+		pkLog.GET(":id", a.PkLogAPI.Get)
+		pkLog.POST("", a.PkLogAPI.Create)
+		pkLog.PUT(":id", a.PkLogAPI.Update)
+		pkLog.DELETE(":id", a.PkLogAPI.Delete)
 	}
 
 	return nil

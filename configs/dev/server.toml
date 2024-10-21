@@ -8,6 +8,7 @@ DisablePrintConfig = false
 DefaultLoginPwd = "6351623c8cef86fefabfa7da046fc619" # MD5("abc-123")
 MenuFile = "menu.json" # Or use "menu_cn.json"
 DenyDeleteMenu = false
+Static = "upload"
 
 [General.HTTP]
 Addr = ":8040"

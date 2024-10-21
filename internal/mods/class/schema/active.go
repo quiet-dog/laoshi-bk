@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/xxx/testapp/pkg/util"
+	"gorm.io/gorm"
 )
 
 // 活动
@@ -19,6 +20,24 @@ type Active struct {
 	PkModel     *Pk       `json:"pk_model" gorm:"foreignKey:PkId"`                 // pk
 	TaoLunId    string    `json:"tao_lun_id" gorm:"size:20;comment:taoLunId;"`
 	TaoLunModel *TaoLun   `json:"tao_lun_model" gorm:"foreignKey:TaoLunId"` // pk
+	CanYu       []*Employ `json:"can_yu" gorm:"-"`
+}
+
+func (a *Active) AfterFind(tx *gorm.DB) error {
+	if a.SignId != "" {
+		tx.Where("id = ?", a.SignId).First(&a.SignModel)
+		tx.Where("id in (?)", tx.Model(&SignLog{}).Where("active_id = ?", a.ID).Select("employ_id")).Find(&a.CanYu)
+	}
+	if a.PkId != "" {
+		tx.Where("id = ?", a.PkId).First(&a.PkModel)
+		tx.Where("id in (?)", tx.Model(&PkLog{}).Where("active_id = ?", a.ID).Select("employ_id")).Find(&a.CanYu)
+	}
+	if a.TaoLunId != "" {
+		tx.Where("id = ?", a.TaoLunId).First(&a.TaoLunModel)
+		tx.Where("id in (?)", tx.Model(&Comment{}).Group("employ_id").Distinct("employ_id").Where("active_id = ?", a.ID).Select("employ_id")).Find(&a.CanYu)
+	}
+
+	return nil
 }
 
 // Defining the query parameters for the `Active` struct.

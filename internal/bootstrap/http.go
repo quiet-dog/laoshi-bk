@@ -30,6 +30,7 @@ func startHTTPServer(ctx context.Context, injector *wirex.Injector) (func(), err
 	}
 
 	e := gin.New()
+	e.Static("/upload", config.C.General.Static)
 	e.GET("/health", func(c *gin.Context) {
 		util.ResOK(c)
 	})

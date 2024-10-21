@@ -4,16 +4,25 @@ import (
 	"time"
 
 	"github.com/xxx/testapp/pkg/util"
+	"gorm.io/gorm"
 )
 
 // 签到
 type Sign struct {
-	ID        string    `json:"id" gorm:"size:20;primaryKey;comment:Unique ID;"` // Unique ID
-	Title     string    `json:"title" gorm:"size:512;comment:签到标题;"`             // 签到标题
-	IsAuto    bool      `json:"is_auto" gorm:"comment:自动结束;"`                    // 自动结束
-	Type      string    `json:"type" gorm:"size:1024;comment:签到类型;"`             // 签到类型
-	CreatedAt time.Time `json:"created_at" gorm:"index;comment:Create time;"`    // Create time
-	UpdatedAt time.Time `json:"updated_at" gorm:"index;comment:Update time;"`    // Update time
+	ID        string     `json:"id" gorm:"size:20;primaryKey;comment:Unique ID;"` // Unique ID
+	Title     string     `json:"title" gorm:"size:512;comment:签到标题;"`             // 签到标题
+	IsAuto    bool       `json:"is_auto" gorm:"comment:自动结束;"`                    // 自动结束
+	Type      string     `json:"type" gorm:"size:1024;comment:签到类型;"`             // 签到类型
+	SignLogs  []*SignLog `json:"sign_logs" gorm:"-"`
+	NotEmploy []*Employ  `json:"not_employ" gorm:"-"`
+	CreatedAt time.Time  `json:"created_at" gorm:"index;comment:Create time;"` // Create time
+	UpdatedAt time.Time  `json:"updated_at" gorm:"index;comment:Update time;"` // Update time
+}
+
+func (s *Sign) AfterFind(tx *gorm.DB) error {
+	tx.Where("active_id = (?)", tx.Model(&Active{}).Where("sign_id = ?", s.ID).Select("id")).Find(&s.SignLogs)
+	tx.Where("id not in (?)", tx.Where("active_id = (?)", tx.Model(&Active{}).Where("sign_id = ?", s.ID).Select("id"))).Find(&s.NotEmploy)
+	return nil
 }
 
 // Defining the query parameters for the `Sign` struct.

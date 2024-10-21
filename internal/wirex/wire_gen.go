@@ -205,14 +205,47 @@ func BuildInjector(ctx context.Context) (*Injector, func(), error) {
 	apiFile := &api3.File{
 		FileBIZ: bizFile,
 	}
+	signLog := &dal3.SignLog{
+		DB: db,
+	}
+	bizSignLog := &biz3.SignLog{
+		Trans:      trans,
+		SignLogDAL: signLog,
+	}
+	apiSignLog := &api3.SignLog{
+		SignLogBIZ: bizSignLog,
+	}
+	comment := &dal3.Comment{
+		DB: db,
+	}
+	bizComment := &biz3.Comment{
+		Trans:      trans,
+		CommentDAL: comment,
+	}
+	apiComment := &api3.Comment{
+		CommentBIZ: bizComment,
+	}
+	pkLog := &dal3.PkLog{
+		DB: db,
+	}
+	bizPkLog := &biz3.PkLog{
+		Trans:    trans,
+		PkLogDAL: pkLog,
+	}
+	apiPkLog := &api3.PkLog{
+		PkLogBIZ: bizPkLog,
+	}
 	classClass := &class.Class{
-		DB:        db,
-		SignAPI:   apiSign,
-		ActiveAPI: apiActive,
-		PkAPI:     apiPk,
-		EmployAPI: apiEmploy,
-		TaoLunAPI: apiTaoLun,
-		FileAPI:   apiFile,
+		DB:         db,
+		SignAPI:    apiSign,
+		ActiveAPI:  apiActive,
+		PkAPI:      apiPk,
+		EmployAPI:  apiEmploy,
+		TaoLunAPI:  apiTaoLun,
+		FileAPI:    apiFile,
+		SignLogAPI: apiSignLog,
+		CommentAPI: apiComment,
+		PkLogAPI:   apiPkLog,
 	}
 	modsMods := &mods.Mods{
 		RBAC:    rbacRBAC,

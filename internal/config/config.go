@@ -17,6 +17,7 @@ type Config struct {
 }
 
 type General struct {
+	Static             string `default:"upload"`
 	AppName            string `default:"testapp"`
 	Version            string `default:"v1.0.0"`
 	Debug              bool
@@ -63,12 +64,12 @@ type Storage struct {
 	}
 	DB struct {
 		Debug        bool
-		Type         string `default:"sqlite3"`          // sqlite3/mysql/postgres
+		Type         string `default:"sqlite3"`         // sqlite3/mysql/postgres
 		DSN          string `default:"data/testapp.db"` // database source name
-		MaxLifetime  int    `default:"86400"`            // seconds
-		MaxIdleTime  int    `default:"3600"`             // seconds
-		MaxOpenConns int    `default:"100"`              // connections
-		MaxIdleConns int    `default:"50"`               // connections
+		MaxLifetime  int    `default:"86400"`           // seconds
+		MaxIdleTime  int    `default:"3600"`            // seconds
+		MaxOpenConns int    `default:"100"`             // connections
+		MaxIdleConns int    `default:"50"`              // connections
 		TablePrefix  string `default:""`
 		AutoMigrate  bool
 		PrepareStmt  bool

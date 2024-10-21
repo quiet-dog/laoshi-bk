@@ -12,6 +12,10 @@ definitions:
     type: object
   schema.Active:
     properties:
+      can_yu:
+        items:
+          $ref: '#/definitions/schema.Employ'
+        type: array
       created_at:
         description: Create time
         type: string
@@ -65,6 +69,38 @@ definitions:
     properties:
       captcha_id:
         description: Captcha ID
+        type: string
+    type: object
+  schema.Comment:
+    properties:
+      active_id:
+        description: 签到ID
+        type: string
+      comment:
+        description: 是否开始
+        type: string
+      created_at:
+        description: Create time
+        type: string
+      employ_id:
+        description: 是否结束
+        type: string
+      employ_model:
+        $ref: '#/definitions/schema.Employ'
+      id:
+        description: Unique ID
+        type: string
+      updated_at:
+        description: Update time
+        type: string
+    type: object
+  schema.CommentForm:
+    properties:
+      active_id:
+        type: string
+      comment:
+        type: string
+      employ_id:
         type: string
     type: object
   schema.Dictionary:
@@ -145,6 +181,13 @@ definitions:
         type: string
     type: object
   schema.FileForm:
+    properties:
+      orign_name:
+        description: 原始名字
+        type: string
+      path:
+        description: 路径
+        type: string
     type: object
   schema.Logger:
     properties:
@@ -360,6 +403,32 @@ definitions:
       title:
         type: string
     type: object
+  schema.PkLog:
+    properties:
+      active_id:
+        description: 签到标题
+        type: string
+      comment:
+        description: 自动结束
+        type: string
+      created_at:
+        description: Create time
+        type: string
+      employ_id:
+        description: 自动结束
+        type: string
+      group_id:
+        description: 自动结束
+        type: string
+      id:
+        description: Unique ID
+        type: string
+      updated_at:
+        description: Update time
+        type: string
+    type: object
+  schema.PkLogForm:
+    type: object
   schema.Role:
     properties:
       code:
@@ -453,6 +522,14 @@ definitions:
       is_auto:
         description: 自动结束
         type: boolean
+      not_employ:
+        items:
+          $ref: '#/definitions/schema.Employ'
+        type: array
+      sign_logs:
+        items:
+          $ref: '#/definitions/schema.SignLog'
+        type: array
       title:
         description: 签到标题
         type: string
@@ -479,11 +556,44 @@ definitions:
     - title
     - type
     type: object
+  schema.SignLog:
+    properties:
+      active_id:
+        description: 签到标题
+        type: string
+      created_at:
+        description: Create time
+        type: string
+      employ_id:
+        description: 自动结束
+        type: string
+      employ_model:
+        allOf:
+        - $ref: '#/definitions/schema.Employ'
+        description: 自动结束
+      id:
+        description: Unique ID
+        type: string
+      updated_at:
+        description: Update time
+        type: string
+    type: object
+  schema.SignLogForm:
+    properties:
+      active_id:
+        type: string
+      employ_id:
+        type: string
+    type: object
   schema.TaoLun:
     properties:
       comment:
         description: 讨论内容
         type: string
+      comment_model:
+        items:
+          $ref: '#/definitions/schema.Comment'
+        type: array
       created_at:
         description: Create time
         type: string
@@ -502,6 +612,11 @@ definitions:
       updated_at:
         description: Update time
         type: string
+      upload_file:
+        description: 文件
+        items:
+          $ref: '#/definitions/schema.File'
+        type: array
     type: object
   schema.TaoLunForm:
     properties:
@@ -858,6 +973,159 @@ paths:
       summary: Update active record by ID
       tags:
       - ActiveAPI
+  /api/v1/class/comments:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/schema.Comment'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Query comment list
+      tags:
+      - CommentAPI
+    post:
+      parameters:
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.CommentForm'
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.Comment'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Create comment record
+      tags:
+      - CommentAPI
+  /api/v1/class/comments/{id}:
+    delete:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete comment record by ID
+      tags:
+      - CommentAPI
+    get:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.Comment'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Get comment record by ID
+      tags:
+      - CommentAPI
+    put:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.CommentForm'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Update comment record by ID
+      tags:
+      - CommentAPI
   /api/v1/class/employs:
     get:
       responses:
@@ -1164,6 +1432,159 @@ paths:
       summary: Update file record by ID
       tags:
       - FileAPI
+  /api/v1/class/pk-logs:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/schema.PkLog'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Query pk log list
+      tags:
+      - PkLogAPI
+    post:
+      parameters:
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.PkLogForm'
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.PkLog'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Create pk log record
+      tags:
+      - PkLogAPI
+  /api/v1/class/pk-logs/{id}:
+    delete:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete pk log record by ID
+      tags:
+      - PkLogAPI
+    get:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.PkLog'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Get pk log record by ID
+      tags:
+      - PkLogAPI
+    put:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.PkLogForm'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Update pk log record by ID
+      tags:
+      - PkLogAPI
   /api/v1/class/pks:
     get:
       responses:
@@ -1317,6 +1738,159 @@ paths:
       summary: Update pk record by ID
       tags:
       - PkAPI
+  /api/v1/class/sign-logs:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/schema.SignLog'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Query sign log list
+      tags:
+      - SignLogAPI
+    post:
+      parameters:
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.SignLogForm'
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.SignLog'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Create sign log record
+      tags:
+      - SignLogAPI
+  /api/v1/class/sign-logs/{id}:
+    delete:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete sign log record by ID
+      tags:
+      - SignLogAPI
+    get:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.SignLog'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Get sign log record by ID
+      tags:
+      - SignLogAPI
+    put:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.SignLogForm'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Update sign log record by ID
+      tags:
+      - SignLogAPI
   /api/v1/class/signs:
     get:
       responses:
