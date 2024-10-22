@@ -389,17 +389,32 @@ definitions:
       id:
         description: Unique ID
         type: string
+      paths:
+        description: 文件地址
+        type: string
+      pk_model:
+        description: 小组
+        items:
+          $ref: '#/definitions/schema.Pk'
+        type: array
       title:
         description: pk标题
         type: string
       updated_at:
         description: Update time
         type: string
+      upload_fils:
+        description: 文件
+        items:
+          $ref: '#/definitions/schema.File'
+        type: array
     type: object
   schema.PkForm:
     properties:
       count:
         type: integer
+      paths:
+        type: string
       title:
         type: string
     type: object
@@ -417,6 +432,10 @@ definitions:
       employ_id:
         description: 自动结束
         type: string
+      employ_model:
+        allOf:
+        - $ref: '#/definitions/schema.Employ'
+        description: 自动结束
       group_id:
         description: 自动结束
         type: string
@@ -428,6 +447,38 @@ definitions:
         type: string
     type: object
   schema.PkLogForm:
+    properties:
+      active_id:
+        type: string
+      comment:
+        type: string
+      employ_id:
+        type: string
+      group_id:
+        type: string
+    type: object
+  schema.PkScore:
+    properties:
+      active_id:
+        description: 活动Id
+        type: string
+      created_at:
+        description: Create time
+        type: string
+      group_id:
+        description: 小组Id
+        type: integer
+      id:
+        description: Unique ID
+        type: string
+      score:
+        description: 小组分
+        type: string
+      updated_at:
+        description: Update time
+        type: string
+    type: object
+  schema.PkScoreForm:
     type: object
   schema.Role:
     properties:
@@ -1585,6 +1636,159 @@ paths:
       summary: Update pk log record by ID
       tags:
       - PkLogAPI
+  /api/v1/class/pk-scores:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/schema.PkScore'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Query pk score list
+      tags:
+      - PkScoreAPI
+    post:
+      parameters:
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.PkScoreForm'
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.PkScore'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Create pk score record
+      tags:
+      - PkScoreAPI
+  /api/v1/class/pk-scores/{id}:
+    delete:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete pk score record by ID
+      tags:
+      - PkScoreAPI
+    get:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.PkScore'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Get pk score record by ID
+      tags:
+      - PkScoreAPI
+    put:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.PkScoreForm'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Update pk score record by ID
+      tags:
+      - PkScoreAPI
   /api/v1/class/pks:
     get:
       responses:

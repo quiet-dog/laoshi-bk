@@ -22,10 +22,11 @@ type Class struct {
 	SignLogAPI *api.SignLog
 	CommentAPI *api.Comment
 	PkLogAPI   *api.PkLog
+	PkScoreAPI *api.PkScore
 }
 
 func (a *Class) AutoMigrate(ctx context.Context) error {
-	return a.DB.AutoMigrate(new(schema.Sign), new(schema.Active), new(schema.Pk), new(schema.Employ), new(schema.TaoLun), new(schema.File), new(schema.SignLog), new(schema.Comment), new(schema.PkLog))
+	return a.DB.AutoMigrate(new(schema.Sign), new(schema.Active), new(schema.Pk), new(schema.Employ), new(schema.TaoLun), new(schema.File), new(schema.SignLog), new(schema.Comment), new(schema.PkLog), new(schema.PkScore))
 }
 
 func (a *Class) Init(ctx context.Context) error {
@@ -110,6 +111,14 @@ func (a *Class) RegisterV1Routers(ctx context.Context, v1 *gin.RouterGroup) erro
 		pkLog.POST("", a.PkLogAPI.Create)
 		pkLog.PUT(":id", a.PkLogAPI.Update)
 		pkLog.DELETE(":id", a.PkLogAPI.Delete)
+	}
+	pkScore := v1.Group("pk-scores")
+	{
+		pkScore.GET("", a.PkScoreAPI.Query)
+		pkScore.GET(":id", a.PkScoreAPI.Get)
+		pkScore.POST("", a.PkScoreAPI.Create)
+		pkScore.PUT(":id", a.PkScoreAPI.Update)
+		pkScore.DELETE(":id", a.PkScoreAPI.Delete)
 	}
 
 	return nil

@@ -1357,6 +1357,263 @@
                 }
             }
         },
+        "/api/v1/class/pk-scores": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "PkScoreAPI"
+                ],
+                "summary": "Query pk score list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.ResponseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/schema.PkScore"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "PkScoreAPI"
+                ],
+                "summary": "Create pk score record",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.PkScoreForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.ResponseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/schema.PkScore"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/class/pk-scores/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "PkScoreAPI"
+                ],
+                "summary": "Get pk score record by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.ResponseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/schema.PkScore"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "PkScoreAPI"
+                ],
+                "summary": "Update pk score record by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schema.PkScoreForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "PkScoreAPI"
+                ],
+                "summary": "Delete pk score record by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "unique id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.ResponseResult"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/class/pks": {
             "get": {
                 "security": [
@@ -4535,6 +4792,17 @@
                     "description": "Unique ID",
                     "type": "string"
                 },
+                "paths": {
+                    "description": "文件地址",
+                    "type": "string"
+                },
+                "pk_model": {
+                    "description": "小组",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.Pk"
+                    }
+                },
                 "title": {
                     "description": "pk标题",
                     "type": "string"
@@ -4542,6 +4810,13 @@
                 "updated_at": {
                     "description": "Update time",
                     "type": "string"
+                },
+                "upload_fils": {
+                    "description": "文件",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.File"
+                    }
                 }
             }
         },
@@ -4550,6 +4825,9 @@
             "properties": {
                 "count": {
                     "type": "integer"
+                },
+                "paths": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"
@@ -4575,6 +4853,14 @@
                     "description": "自动结束",
                     "type": "string"
                 },
+                "employ_model": {
+                    "description": "自动结束",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/schema.Employ"
+                        }
+                    ]
+                },
                 "group_id": {
                     "description": "自动结束",
                     "type": "string"
@@ -4590,6 +4876,52 @@
             }
         },
         "schema.PkLogForm": {
+            "type": "object",
+            "properties": {
+                "active_id": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "employ_id": {
+                    "type": "string"
+                },
+                "group_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.PkScore": {
+            "type": "object",
+            "properties": {
+                "active_id": {
+                    "description": "活动Id",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "Create time",
+                    "type": "string"
+                },
+                "group_id": {
+                    "description": "小组Id",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "Unique ID",
+                    "type": "string"
+                },
+                "score": {
+                    "description": "小组分",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "Update time",
+                    "type": "string"
+                }
+            }
+        },
+        "schema.PkScoreForm": {
             "type": "object"
         },
         "schema.Role": {

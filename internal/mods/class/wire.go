@@ -36,4 +36,7 @@ var Set = wire.NewSet(
 	wire.Struct(new(dal.PkLog), "*"),
 	wire.Struct(new(biz.PkLog), "*"),
 	wire.Struct(new(api.PkLog), "*"),
+	wire.Struct(new(dal.PkScore), "*"),
+	wire.Struct(new(biz.PkScore), "*"),
+	wire.Struct(new(api.PkScore), "*"),
 )

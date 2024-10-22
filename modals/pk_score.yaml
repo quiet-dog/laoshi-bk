@@ -1,0 +1,17 @@
+- name: PkScore
+  comment: 小组pk打分
+  disable_pagination: true
+  fill_gorm_commit: true
+  fill_router_prefix: true
+  fields:
+    - name: ActiveId
+      type: string
+      comment: 活动Id
+      gorm_tag: "size:512;"
+    - name: Score
+      type: string
+      comment: 小组分
+      gorm_tag: ""
+    - name: GroupId
+      type: int
+      comment: 小组Id
