@@ -28,6 +28,11 @@ definitions:
       is_start:
         description: 是否开始
         type: boolean
+      not_can_yu:
+        description: 未参与
+        items:
+          $ref: '#/definitions/schema.Employ'
+        type: array
       pk_id:
         description: pkID
         type: string
@@ -70,6 +75,29 @@ definitions:
       captcha_id:
         description: Captcha ID
         type: string
+    type: object
+  schema.Class:
+    properties:
+      created_at:
+        description: Create time
+        type: string
+      id:
+        description: Unique ID
+        type: string
+      name:
+        description: 签到ID
+        type: string
+      path:
+        description: 是否结束
+        type: string
+      pid:
+        description: 是否开始
+        type: string
+      updated_at:
+        description: Update time
+        type: string
+    type: object
+  schema.ClassForm:
     type: object
   schema.Comment:
     properties:
@@ -119,6 +147,9 @@ definitions:
     type: object
   schema.Employ:
     properties:
+      avatar:
+        description: 头像
+        type: string
       committee:
         description: 组号
         type: integer
@@ -479,6 +510,13 @@ definitions:
         type: string
     type: object
   schema.PkScoreForm:
+    properties:
+      active_id:
+        type: string
+      group_id:
+        type: integer
+      score:
+        type: string
     type: object
   schema.Role:
     properties:
@@ -1024,6 +1062,159 @@ paths:
       summary: Update active record by ID
       tags:
       - ActiveAPI
+  /api/v1/class/classes:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/schema.Class'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Query class list
+      tags:
+      - ClassAPI
+    post:
+      parameters:
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.ClassForm'
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.Class'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Create class record
+      tags:
+      - ClassAPI
+  /api/v1/class/classes/{id}:
+    delete:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete class record by ID
+      tags:
+      - ClassAPI
+    get:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.Class'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Get class record by ID
+      tags:
+      - ClassAPI
+    put:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.ClassForm'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Update class record by ID
+      tags:
+      - ClassAPI
   /api/v1/class/comments:
     get:
       responses:

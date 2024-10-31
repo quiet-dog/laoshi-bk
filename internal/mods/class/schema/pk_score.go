@@ -19,6 +19,7 @@ type PkScore struct {
 // Defining the query parameters for the `PkScore` struct.
 type PkScoreQueryParam struct {
 	util.PaginationParam
+	ActiveId string `form:"active_id"` // 活动ID
 }
 
 // Defining the query options for the `PkScore` struct.

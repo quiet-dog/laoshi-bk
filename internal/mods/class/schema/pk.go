@@ -14,6 +14,7 @@ type Pk struct {
 	Title       string    `json:"title" gorm:"size:512;comment:pk标题;"`             // pk标题
 	Count       int       `json:"count" gorm:"comment:小组数量;"`                      // 小组数量
 	PkModel     []*Pk     `json:"pk_model" gorm:"-"`                               // 小组
+	PkComment   []*PkLog  `json:"pk_comment" gorm:"-"`                             // 评论
 	Paths       string    `json:"paths" gorm:"comment:文件地址;"`                      // 文件地址
 	UploadFiles []*File   `json:"upload_fils" gorm:"-"`                            // 文件
 	CreatedAt   time.Time `json:"created_at" gorm:"index;comment:Create time;"`    // Create time
@@ -27,6 +28,8 @@ func (p *Pk) AfterFind(tx *gorm.DB) error {
 	if len(paths) > 0 {
 		tx.Where("id in (?)", paths).Find(&p.UploadFiles)
 	}
+
+	tx.Where("active_id = (?)", tx.Model(&Active{}).Where("pk_id = ?", p.ID).Select("id")).Find(&p.PkComment)
 	return nil
 }
 

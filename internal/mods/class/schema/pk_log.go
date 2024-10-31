@@ -13,7 +13,7 @@ type PkLog struct {
 	ActiveId    string    `json:"active_id" gorm:"size:512;comment:签到标题;"`         // 签到标题
 	EmployId    string    `json:"employ_id" gorm:"comment:自动结束;"`                  // 自动结束
 	EmployModel *Employ   `json:"employ_model" gorm:"-"`                           // 自动结束
-	GroupId     string    `json:"group_id" gorm:"comment:自动结束;"`                   // 自动结束
+	GroupId     int       `json:"group_id" gorm:"comment:自动结束;"`                   // 自动结束
 	Comment     string    `json:"comment" gorm:"comment:自动结束;"`                    // 自动结束
 	CreatedAt   time.Time `json:"created_at" gorm:"index;comment:Create time;"`    // Create time
 	UpdatedAt   time.Time `json:"updated_at" gorm:"index;comment:Update time;"`    // Update time
@@ -27,6 +27,7 @@ func (p *PkLog) AfterFind(tx *gorm.DB) error {
 // Defining the query parameters for the `PkLog` struct.
 type PkLogQueryParam struct {
 	util.PaginationParam
+	ActiveId string `form:"active_id"` // 活动ID
 }
 
 // Defining the query options for the `PkLog` struct.
@@ -47,7 +48,7 @@ type PkLogs []*PkLog
 type PkLogForm struct {
 	ActiveId string `json:"active_id"`
 	EmployId string `json:"employ_id"`
-	GroupId  string `json:"group_id"`
+	GroupId  int    `json:"group_id"`
 	Comment  string `json:"comment"`
 }
 

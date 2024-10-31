@@ -21,20 +21,25 @@ type Active struct {
 	TaoLunId    string    `json:"tao_lun_id" gorm:"size:20;comment:taoLunId;"`
 	TaoLunModel *TaoLun   `json:"tao_lun_model" gorm:"foreignKey:TaoLunId"` // pk
 	CanYu       []*Employ `json:"can_yu" gorm:"-"`
+	NotCanYu    []*Employ `json:"not_can_yu" gorm:"-"`             // 未参与
+	Type        string    `json:"type" gorm:"size:20;comment:类型;"` // 类型
 }
 
 func (a *Active) AfterFind(tx *gorm.DB) error {
 	if a.SignId != "" {
 		tx.Where("id = ?", a.SignId).First(&a.SignModel)
-		tx.Where("id in (?)", tx.Model(&SignLog{}).Where("active_id = ?", a.ID).Select("employ_id")).Find(&a.CanYu)
+		tx.Where("id in (?) and is_teacher = (?)", tx.Model(&SignLog{}).Where("active_id = ?", a.ID).Select("employ_id"), false).Find(&a.CanYu)
+		tx.Where("id not in (?) and is_teacher = (?)", tx.Model(&SignLog{}).Where("active_id = ?", a.ID).Select("employ_id"), false).Find(&a.NotCanYu)
 	}
 	if a.PkId != "" {
 		tx.Where("id = ?", a.PkId).First(&a.PkModel)
-		tx.Where("id in (?)", tx.Model(&PkLog{}).Where("active_id = ?", a.ID).Select("employ_id")).Find(&a.CanYu)
+		tx.Where("id in (?) and is_teacher = (?)", tx.Model(&PkLog{}).Where("active_id = ?", a.ID).Select("employ_id"), false).Find(&a.CanYu)
+		tx.Where("id not in (?) and is_teacher = (?)", tx.Model(&PkLog{}).Where("active_id = ?", a.ID).Select("employ_id"), false).Find(&a.NotCanYu)
 	}
 	if a.TaoLunId != "" {
 		tx.Where("id = ?", a.TaoLunId).First(&a.TaoLunModel)
-		tx.Where("id in (?)", tx.Model(&Comment{}).Group("employ_id").Distinct("employ_id").Where("active_id = ?", a.ID).Select("employ_id")).Find(&a.CanYu)
+		tx.Where("id in (?) and is_teacher = (?)", tx.Model(&Comment{}).Group("employ_id").Distinct("employ_id").Where("active_id = ?", a.ID).Select("employ_id"), false).Find(&a.CanYu)
+		tx.Where("id not in (?) and is_teacher = (?)", tx.Model(&Comment{}).Group("employ_id").Distinct("employ_id").Where("active_id = ?", a.ID).Select("employ_id"), false).Find(&a.NotCanYu)
 	}
 
 	return nil
@@ -44,9 +49,10 @@ func (a *Active) AfterFind(tx *gorm.DB) error {
 type ActiveQueryParam struct {
 	util.PaginationParam
 
-	SignId  string `form:"-"` // 签到ID
-	IsEnd   bool   `form:"-"` // 是否结束
-	IsStart bool   `form:"-"` // 是否开始
+	SignId  string `form:"sign_id"`  // 签到ID
+	IsEnd   bool   `form:"is_end"`   // 是否结束
+	IsStart bool   `form:"is_start"` // 是否开始
+	Type    string `form:"type"`     // 类型
 }
 
 // Defining the query options for the `Active` struct.
@@ -70,6 +76,7 @@ type ActiveForm struct {
 	IsStart  bool   `json:"is_start"`
 	PkId     string `json:"pk_id"`
 	TaoLunId string `json:"tao_lun_id"`
+	Type     string `json:"type"`
 }
 
 // A validation function for the `ActiveForm` struct.
@@ -84,5 +91,6 @@ func (a *ActiveForm) FillTo(active *Active) error {
 	active.IsStart = a.IsStart
 	active.PkId = a.PkId
 	active.TaoLunId = a.TaoLunId
+	active.Type = a.Type
 	return nil
 }

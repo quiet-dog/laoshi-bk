@@ -15,5 +15,5 @@
       type: string
       comment: 自动结束
     - name: Comment
-      type: string
+      type: int
       comment: 自动结束

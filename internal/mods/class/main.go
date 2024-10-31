@@ -23,10 +23,11 @@ type Class struct {
 	CommentAPI *api.Comment
 	PkLogAPI   *api.PkLog
 	PkScoreAPI *api.PkScore
+	ClassAPI   *api.Class
 }
 
 func (a *Class) AutoMigrate(ctx context.Context) error {
-	return a.DB.AutoMigrate(new(schema.Sign), new(schema.Active), new(schema.Pk), new(schema.Employ), new(schema.TaoLun), new(schema.File), new(schema.SignLog), new(schema.Comment), new(schema.PkLog), new(schema.PkScore))
+	return a.DB.AutoMigrate(new(schema.Sign), new(schema.Active), new(schema.Pk), new(schema.Employ), new(schema.TaoLun), new(schema.File), new(schema.SignLog), new(schema.Comment), new(schema.PkLog), new(schema.PkScore), new(schema.Class))
 }
 
 func (a *Class) Init(ctx context.Context) error {
@@ -71,6 +72,7 @@ func (a *Class) RegisterV1Routers(ctx context.Context, v1 *gin.RouterGroup) erro
 		employ.POST("", a.EmployAPI.Create)
 		employ.PUT(":id", a.EmployAPI.Update)
 		employ.DELETE(":id", a.EmployAPI.Delete)
+		// employ.GET("preview", a.EmployAPI.Preview)
 	}
 	taoLun := v1.Group("tao-luns")
 	{
@@ -119,6 +121,15 @@ func (a *Class) RegisterV1Routers(ctx context.Context, v1 *gin.RouterGroup) erro
 		pkScore.POST("", a.PkScoreAPI.Create)
 		pkScore.PUT(":id", a.PkScoreAPI.Update)
 		pkScore.DELETE(":id", a.PkScoreAPI.Delete)
+	}
+	class := v1.Group("classes")
+	{
+		class.GET("", a.ClassAPI.Query)
+		class.GET(":id", a.ClassAPI.Get)
+		class.POST("", a.ClassAPI.Create)
+		class.PUT(":id", a.ClassAPI.Update)
+		class.DELETE(":id", a.ClassAPI.Delete)
+		class.GET("tree", a.ClassAPI.Tree)
 	}
 
 	return nil

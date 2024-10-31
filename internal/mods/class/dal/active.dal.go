@@ -27,6 +27,11 @@ func (a *Active) Query(ctx context.Context, params schema.ActiveQueryParam, opts
 	}
 
 	db := GetActiveDB(ctx, a.DB)
+
+	if v := params.Type; v != "" {
+		db = db.Where("type = ?", v)
+	}
+
 	// if v := params.Signid; len(v) > 0 {
 	// 	db = db.Where("signid = ?", v)
 	// }

@@ -1,0 +1,19 @@
+- name: Class
+  comment: 课件
+  disable_pagination: true
+  fill_gorm_commit: true
+  fill_router_prefix: true
+  fields:
+    - name: Name
+      type: string
+      comment: 签到ID
+      gorm_tag: "size:512;"
+      query: {}
+    - name: Path
+      comment: 是否结束
+      type: string
+      query: {}
+    - name: Pid
+      comment: 是否开始
+      type: string
+      query: {}

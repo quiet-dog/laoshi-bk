@@ -28,6 +28,10 @@ func (a *PkScore) Query(ctx context.Context, params schema.PkScoreQueryParam, op
 
 	db := GetPkScoreDB(ctx, a.DB)
 
+	if v := params.ActiveId; v != "" {
+		db = db.Where("active_id = ?", v)
+	}
+
 	var list schema.PkScores
 	pageResult, err := util.WrapPageQuery(ctx, db, params.PaginationParam, opt.QueryOptions, &list)
 	if err != nil {

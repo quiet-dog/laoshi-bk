@@ -245,6 +245,16 @@ func BuildInjector(ctx context.Context) (*Injector, func(), error) {
 	apiPkScore := &api3.PkScore{
 		PkScoreBIZ: bizPkScore,
 	}
+	dalClass := &dal3.Class{
+		DB: db,
+	}
+	bizClass := &biz3.Class{
+		Trans:    trans,
+		ClassDAL: dalClass,
+	}
+	apiClass := &api3.Class{
+		ClassBIZ: bizClass,
+	}
 	classClass := &class.Class{
 		DB:         db,
 		SignAPI:    apiSign,
@@ -257,6 +267,7 @@ func BuildInjector(ctx context.Context) (*Injector, func(), error) {
 		CommentAPI: apiComment,
 		PkLogAPI:   apiPkLog,
 		PkScoreAPI: apiPkScore,
+		ClassAPI:   apiClass,
 	}
 	modsMods := &mods.Mods{
 		RBAC:    rbacRBAC,

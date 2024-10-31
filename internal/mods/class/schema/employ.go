@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/xxx/testapp/pkg/util"
+	"gorm.io/gorm"
 )
 
 // 用户
@@ -17,6 +18,12 @@ type Employ struct {
 	Committee   int       `json:"committee" gorm:"comment:组号;"`                    // 组号
 	CreatedAt   time.Time `json:"created_at" gorm:"index;comment:Create time;"`    // Create time
 	UpdatedAt   time.Time `json:"updated_at" gorm:"index;comment:Update time;"`    // Update time
+	Avatar      string    `json:"avatar" gorm:"comment:头像;"`                       // 头像
+}
+
+func (e *Employ) AfterFind(tx *gorm.DB) error {
+	e.Avatar = "upload/user/ava/" + e.Name + ".png"
+	return nil
 }
 
 // Defining the query parameters for the `Employ` struct.

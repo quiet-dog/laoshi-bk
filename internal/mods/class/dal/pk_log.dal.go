@@ -28,6 +28,10 @@ func (a *PkLog) Query(ctx context.Context, params schema.PkLogQueryParam, opts .
 
 	db := GetPkLogDB(ctx, a.DB)
 
+	if v := params.ActiveId; v != "" {
+		db = db.Where("active_id = ?", v)
+	}
+
 	var list schema.PkLogs
 	pageResult, err := util.WrapPageQuery(ctx, db, params.PaginationParam, opt.QueryOptions, &list)
 	if err != nil {
