@@ -12,22 +12,26 @@ import (
 )
 
 type Class struct {
-	DB         *gorm.DB
-	SignAPI    *api.Sign
-	ActiveAPI  *api.Active
-	PkAPI      *api.Pk
-	EmployAPI  *api.Employ
-	TaoLunAPI  *api.TaoLun
-	FileAPI    *api.File
-	SignLogAPI *api.SignLog
-	CommentAPI *api.Comment
-	PkLogAPI   *api.PkLog
-	PkScoreAPI *api.PkScore
-	ClassAPI   *api.Class
+	DB          *gorm.DB
+	SignAPI     *api.Sign
+	ActiveAPI   *api.Active
+	PkAPI       *api.Pk
+	EmployAPI   *api.Employ
+	TaoLunAPI   *api.TaoLun
+	FileAPI     *api.File
+	SignLogAPI  *api.SignLog
+	CommentAPI  *api.Comment
+	PkLogAPI    *api.PkLog
+	PkScoreAPI  *api.PkScore
+	ClassAPI    *api.Class
+	PaiOneAPI   *api.PaiOne
+	PaiTwoAPI   *api.PaiTwo
+	PaiThreeAPI *api.PaiThree
+	PaiFourAPI  *api.PaiFour
 }
 
 func (a *Class) AutoMigrate(ctx context.Context) error {
-	return a.DB.AutoMigrate(new(schema.Sign), new(schema.Active), new(schema.Pk), new(schema.Employ), new(schema.TaoLun), new(schema.File), new(schema.SignLog), new(schema.Comment), new(schema.PkLog), new(schema.PkScore), new(schema.Class))
+	return a.DB.AutoMigrate(new(schema.Sign), new(schema.Active), new(schema.Pk), new(schema.Employ), new(schema.TaoLun), new(schema.File), new(schema.SignLog), new(schema.Comment), new(schema.PkLog), new(schema.PkScore), new(schema.Class), new(schema.PaiOne), new(schema.PaiTwo), new(schema.PaiThree), new(schema.PaiFour))
 }
 
 func (a *Class) Init(ctx context.Context) error {
@@ -130,6 +134,38 @@ func (a *Class) RegisterV1Routers(ctx context.Context, v1 *gin.RouterGroup) erro
 		class.PUT(":id", a.ClassAPI.Update)
 		class.DELETE(":id", a.ClassAPI.Delete)
 		class.GET("tree", a.ClassAPI.Tree)
+	}
+	paiOne := v1.Group("pai-ones")
+	{
+		paiOne.GET("", a.PaiOneAPI.Query)
+		paiOne.GET(":id", a.PaiOneAPI.Get)
+		paiOne.POST("", a.PaiOneAPI.Create)
+		paiOne.PUT(":id", a.PaiOneAPI.Update)
+		paiOne.DELETE(":id", a.PaiOneAPI.Delete)
+	}
+	paiTwo := v1.Group("pai-twos")
+	{
+		paiTwo.GET("", a.PaiTwoAPI.Query)
+		paiTwo.GET(":id", a.PaiTwoAPI.Get)
+		paiTwo.POST("", a.PaiTwoAPI.Create)
+		paiTwo.PUT(":id", a.PaiTwoAPI.Update)
+		paiTwo.DELETE(":id", a.PaiTwoAPI.Delete)
+	}
+	paiThree := v1.Group("pai-threes")
+	{
+		paiThree.GET("", a.PaiThreeAPI.Query)
+		paiThree.GET(":id", a.PaiThreeAPI.Get)
+		paiThree.POST("", a.PaiThreeAPI.Create)
+		paiThree.PUT(":id", a.PaiThreeAPI.Update)
+		paiThree.DELETE(":id", a.PaiThreeAPI.Delete)
+	}
+	paiFour := v1.Group("pai-fours")
+	{
+		paiFour.GET("", a.PaiFourAPI.Query)
+		paiFour.GET(":id", a.PaiFourAPI.Get)
+		paiFour.POST("", a.PaiFourAPI.Create)
+		paiFour.PUT(":id", a.PaiFourAPI.Update)
+		paiFour.DELETE(":id", a.PaiFourAPI.Delete)
 	}
 
 	return nil

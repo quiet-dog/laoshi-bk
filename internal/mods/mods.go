@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 	"github.com/xxx/testapp/internal/mods/class"
+	"github.com/xxx/testapp/internal/mods/paione"
 	"github.com/xxx/testapp/internal/mods/rbac"
 	"github.com/xxx/testapp/internal/mods/student"
 	"github.com/xxx/testapp/internal/mods/sys"
@@ -22,6 +23,7 @@ var Set = wire.NewSet(
 	sys.Set,
 	student.Set,
 	class.Set,
+	paione.Set,
 )
 
 type Mods struct {
@@ -29,6 +31,7 @@ type Mods struct {
 	SYS     *sys.SYS
 	Student *student.Student
 	Class   *class.Class
+	PaiOne  *paione.PaiOne
 }
 
 func (a *Mods) Init(ctx context.Context) error {
@@ -44,6 +47,10 @@ func (a *Mods) Init(ctx context.Context) error {
 	if err := a.Class.Init(
 		ctx,
 	); err != nil {
+		return err
+	}
+	if err := a.PaiOne.Init(
+		ctx); err != nil {
 		return err
 	}
 
@@ -72,6 +79,9 @@ func (a *Mods) RegisterRouters(ctx context.Context, e *gin.Engine) error {
 	if err := a.Class.RegisterV1Routers(ctx, v1); err != nil {
 		return err
 	}
+	if err := a.PaiOne.RegisterV1Routers(ctx, v1); err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -87,6 +97,9 @@ func (a *Mods) Release(ctx context.Context) error {
 		return err
 	}
 	if err := a.Class.Release(ctx); err != nil {
+		return err
+	}
+	if err := a.PaiOne.Release(ctx); err != nil {
 		return err
 	}
 

@@ -13,6 +13,10 @@ import (
 	api3 "github.com/xxx/testapp/internal/mods/class/api"
 	biz3 "github.com/xxx/testapp/internal/mods/class/biz"
 	dal3 "github.com/xxx/testapp/internal/mods/class/dal"
+	"github.com/xxx/testapp/internal/mods/paione"
+	api4 "github.com/xxx/testapp/internal/mods/paione/api"
+	biz4 "github.com/xxx/testapp/internal/mods/paione/biz"
+	dal4 "github.com/xxx/testapp/internal/mods/paione/dal"
 	"github.com/xxx/testapp/internal/mods/rbac"
 	"github.com/xxx/testapp/internal/mods/rbac/api"
 	"github.com/xxx/testapp/internal/mods/rbac/biz"
@@ -255,25 +259,84 @@ func BuildInjector(ctx context.Context) (*Injector, func(), error) {
 	apiClass := &api3.Class{
 		ClassBIZ: bizClass,
 	}
+	paiOne := &dal3.PaiOne{
+		DB: db,
+	}
+	bizPaiOne := &biz3.PaiOne{
+		Trans:     trans,
+		PaiOneDAL: paiOne,
+	}
+	apiPaiOne := &api3.PaiOne{
+		PaiOneBIZ: bizPaiOne,
+	}
+	paiTwo := &dal3.PaiTwo{
+		DB: db,
+	}
+	bizPaiTwo := &biz3.PaiTwo{
+		Trans:     trans,
+		PaiTwoDAL: paiTwo,
+	}
+	apiPaiTwo := &api3.PaiTwo{
+		PaiTwoBIZ: bizPaiTwo,
+	}
+	paiThree := &dal3.PaiThree{
+		DB: db,
+	}
+	bizPaiThree := &biz3.PaiThree{
+		Trans:       trans,
+		PaiThreeDAL: paiThree,
+	}
+	apiPaiThree := &api3.PaiThree{
+		PaiThreeBIZ: bizPaiThree,
+	}
+	paiFour := &dal3.PaiFour{
+		DB: db,
+	}
+	bizPaiFour := &biz3.PaiFour{
+		Trans:      trans,
+		PaiFourDAL: paiFour,
+	}
+	apiPaiFour := &api3.PaiFour{
+		PaiFourBIZ: bizPaiFour,
+	}
 	classClass := &class.Class{
-		DB:         db,
-		SignAPI:    apiSign,
-		ActiveAPI:  apiActive,
-		PkAPI:      apiPk,
-		EmployAPI:  apiEmploy,
-		TaoLunAPI:  apiTaoLun,
-		FileAPI:    apiFile,
-		SignLogAPI: apiSignLog,
-		CommentAPI: apiComment,
-		PkLogAPI:   apiPkLog,
-		PkScoreAPI: apiPkScore,
-		ClassAPI:   apiClass,
+		DB:          db,
+		SignAPI:     apiSign,
+		ActiveAPI:   apiActive,
+		PkAPI:       apiPk,
+		EmployAPI:   apiEmploy,
+		TaoLunAPI:   apiTaoLun,
+		FileAPI:     apiFile,
+		SignLogAPI:  apiSignLog,
+		CommentAPI:  apiComment,
+		PkLogAPI:    apiPkLog,
+		PkScoreAPI:  apiPkScore,
+		ClassAPI:    apiClass,
+		PaiOneAPI:   apiPaiOne,
+		PaiTwoAPI:   apiPaiTwo,
+		PaiThreeAPI: apiPaiThree,
+		PaiFourAPI:  apiPaiFour,
+	}
+	dalPaiOne := &dal4.PaiOne{
+		DB: db,
+	}
+	paiOne2 := &biz4.PaiOne{
+		Trans:     trans,
+		PaiOneDAL: dalPaiOne,
+	}
+	paiOne3 := &api4.PaiOne{
+		PaiOneBIZ: paiOne2,
+	}
+	paionePaiOne := &paione.PaiOne{
+		DB:        db,
+		PaiOneAPI: paiOne3,
 	}
 	modsMods := &mods.Mods{
 		RBAC:    rbacRBAC,
 		SYS:     sysSYS,
 		Student: studentStudent,
 		Class:   classClass,
+		PaiOne:  paionePaiOne,
 	}
 	injector := &Injector{
 		DB:    db,

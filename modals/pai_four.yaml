@@ -1,0 +1,19 @@
+- name: PaiFour
+  comment: Pk日志
+  disable_pagination: true
+  fill_gorm_commit: true
+  fill_router_prefix: true
+  fields:
+    - name: ActiveId
+      type: string
+      comment: 签到标题
+      gorm_tag: "size:512;"
+    - name: EmployId
+      type: string
+      comment: 自动结束
+    - name: Score
+      type: int
+      comment: 自动结束
+    - name: level
+      type: string
+      comment: 自动结束
