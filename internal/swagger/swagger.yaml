@@ -486,7 +486,7 @@ definitions:
         description: Update time
         type: string
     type: object
-  schema.PaiFour:
+  schema.PaiFive:
     properties:
       active_id:
         description: 签到标题
@@ -507,7 +507,41 @@ definitions:
         description: Update time
         type: string
     type: object
+  schema.PaiFiveForm:
+    type: object
+  schema.PaiFour:
+    properties:
+      active_id:
+        description: 签到标题
+        type: string
+      created_at:
+        description: Create time
+        type: string
+      employ:
+        allOf:
+        - $ref: '#/definitions/schema.Employ'
+        description: 自动结束
+      employ_id:
+        description: 自动结束
+        type: string
+      id:
+        description: Unique ID
+        type: string
+      level:
+        description: 自动结束
+        type: string
+      score:
+        description: 自动结束
+        type: integer
+      updated_at:
+        description: Update time
+        type: string
+    type: object
   schema.PaiFourForm:
+    properties:
+      score:
+        description: 自动结束
+        type: integer
     type: object
   schema.PaiThree:
     properties:
@@ -1841,6 +1875,159 @@ paths:
       summary: Update file record by ID
       tags:
       - FileAPI
+  /api/v1/class/pai-fives:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/schema.PaiFive'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Query pai five list
+      tags:
+      - PaiFiveAPI
+    post:
+      parameters:
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.PaiFiveForm'
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.PaiFive'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Create pai five record
+      tags:
+      - PaiFiveAPI
+  /api/v1/class/pai-fives/{id}:
+    delete:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete pai five record by ID
+      tags:
+      - PaiFiveAPI
+    get:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/util.ResponseResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/schema.PaiFive'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Get pai five record by ID
+      tags:
+      - PaiFiveAPI
+    put:
+      parameters:
+      - description: unique id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.PaiFiveForm'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseResult'
+      security:
+      - ApiKeyAuth: []
+      summary: Update pai five record by ID
+      tags:
+      - PaiFiveAPI
   /api/v1/class/pai-fours:
     get:
       responses:

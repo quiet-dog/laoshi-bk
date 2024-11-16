@@ -299,6 +299,16 @@ func BuildInjector(ctx context.Context) (*Injector, func(), error) {
 	apiPaiFour := &api3.PaiFour{
 		PaiFourBIZ: bizPaiFour,
 	}
+	paiFive := &dal3.PaiFive{
+		DB: db,
+	}
+	bizPaiFive := &biz3.PaiFive{
+		Trans:      trans,
+		PaiFiveDAL: paiFive,
+	}
+	apiPaiFive := &api3.PaiFive{
+		PaiFiveBIZ: bizPaiFive,
+	}
 	classClass := &class.Class{
 		DB:          db,
 		SignAPI:     apiSign,
@@ -316,6 +326,7 @@ func BuildInjector(ctx context.Context) (*Injector, func(), error) {
 		PaiTwoAPI:   apiPaiTwo,
 		PaiThreeAPI: apiPaiThree,
 		PaiFourAPI:  apiPaiFour,
+		PaiFiveAPI:  apiPaiFive,
 	}
 	dalPaiOne := &dal4.PaiOne{
 		DB: db,

@@ -54,4 +54,7 @@ var Set = wire.NewSet(
 	wire.Struct(new(dal.PaiFour), "*"),
 	wire.Struct(new(biz.PaiFour), "*"),
 	wire.Struct(new(api.PaiFour), "*"),
+	wire.Struct(new(dal.PaiFive), "*"),
+	wire.Struct(new(biz.PaiFive), "*"),
+	wire.Struct(new(api.PaiFive), "*"),
 )

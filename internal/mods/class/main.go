@@ -28,10 +28,11 @@ type Class struct {
 	PaiTwoAPI   *api.PaiTwo
 	PaiThreeAPI *api.PaiThree
 	PaiFourAPI  *api.PaiFour
+	PaiFiveAPI  *api.PaiFive
 }
 
 func (a *Class) AutoMigrate(ctx context.Context) error {
-	return a.DB.AutoMigrate(new(schema.Sign), new(schema.Active), new(schema.Pk), new(schema.Employ), new(schema.TaoLun), new(schema.File), new(schema.SignLog), new(schema.Comment), new(schema.PkLog), new(schema.PkScore), new(schema.Class), new(schema.PaiOne), new(schema.PaiTwo), new(schema.PaiThree), new(schema.PaiFour))
+	return a.DB.AutoMigrate(new(schema.Sign), new(schema.Active), new(schema.Pk), new(schema.Employ), new(schema.TaoLun), new(schema.File), new(schema.SignLog), new(schema.Comment), new(schema.PkLog), new(schema.PkScore), new(schema.Class), new(schema.PaiOne), new(schema.PaiTwo), new(schema.PaiThree), new(schema.PaiFour), new(schema.PaiFive))
 }
 
 func (a *Class) Init(ctx context.Context) error {
@@ -166,6 +167,14 @@ func (a *Class) RegisterV1Routers(ctx context.Context, v1 *gin.RouterGroup) erro
 		paiFour.POST("", a.PaiFourAPI.Create)
 		paiFour.PUT(":id", a.PaiFourAPI.Update)
 		paiFour.DELETE(":id", a.PaiFourAPI.Delete)
+	}
+	paiFive := v1.Group("pai-fives")
+	{
+		paiFive.GET("", a.PaiFiveAPI.Query)
+		paiFive.GET(":id", a.PaiFiveAPI.Get)
+		paiFive.POST("", a.PaiFiveAPI.Create)
+		paiFive.PUT(":id", a.PaiFiveAPI.Update)
+		paiFive.DELETE(":id", a.PaiFiveAPI.Delete)
 	}
 
 	return nil
